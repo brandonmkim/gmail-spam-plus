@@ -18,6 +18,9 @@ class email:
         self.subj_elem.grid(column=0, row=row, columnspan=2, rowspan=1)
         self.button.grid(column=5, row=row, columnspan=1, rowspan=1)
     
+    def setId(self, i):
+        self.id = i
+
     def remove(self):
         self.subj_elem.destroy()
         self.body_elem.destroy()
