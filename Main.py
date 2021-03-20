@@ -1,5 +1,6 @@
 import threading
 from GetMail import EmailHook
+from tkinter import *
 
 class SpamDetector:
     def __init__(self, d, email, pwrd, server):
@@ -7,11 +8,12 @@ class SpamDetector:
         self.e = email
         self.p = pwrd
         self.s = server
+        self.t = Tk()
 
     def runMailCheck(self):
         gm = EmailHook(self.e,self.p,self.s)
         gm.connect()
-        t = threading.Thread(target=gm.getEmails,name='getEmails')
+        t = threading.Thread(target=gm.loop(self.delay,self.t),name='getEmails')
         t.start()
         t.join()
         

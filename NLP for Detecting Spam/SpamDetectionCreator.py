@@ -9,11 +9,11 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 
 #Access the dataset 
-spam_data = pd.read_csv("spam_ham_dataset.csv")
+spam_data = pd.read_csv("spam.csv")
 
-x_data = spam_data["text"]
+x_data = spam_data["v2"]
 
-y_label = spam_data["label_num"]
+y_label = spam_data["v1"]
 
 #Splits dataset, 30% is for testing
 x_train, x_test, y_train, y_test=train_test_split(x_data,y_label,test_size=0.3)

@@ -16,7 +16,7 @@ class EmailHook:
         self.mail.login(self.address,self.p)
         self.mail.select('inbox')
     
-    def loop(self,delay):
+    def loop(self,delay,tk):
         while True:
             status, data = self.mail.search(None, 'ALL')
             ids = []
@@ -41,10 +41,30 @@ class EmailHook:
                         newstr = ("Subject: " + headline +" "+ content).replace("\n", "").replace("\r", "")
                         
                         #Predict if email is spam.
-                        pred = sc.spamDetect(newstr)
-                        if(pred>0.6):
-                            self.texts.append(em(person,id,headline,content,pred))
+                        pred,typ = sc.spamDetect(newstr)
+                        print(typ)
+                        print(pred)
+                        if(pred>0.6 and typ[0]=='spam'):
+                            self.texts.append(em(tk,person,id,headline,content,pred))
+            
             time.sleep(delay)
+
+    def moveToTrash(self, id):
+        status, data = self.mail.search(None, 'ALL')
+        ids = data[0].split(b' ')
+        self.mail.store(id, '+X-GM-LABELS', '\Trash')
+
+    def permDelete(self, id):
+        status, search_data = self.mail.search(None, b'2')
+        ids = []
+        
+        for i in search_data:
+            ids += i.split()
+
+        self.mail.store(id, '+X-GM-LABELS', '\Trash')
+        self.mail.select('[Gmail]/Trash')
+        self.mail.store("1:*", '+FLAGS', '\Deleted')
+        self.mail.expunge()
 
     def getEmails(self):
         return self.texts
