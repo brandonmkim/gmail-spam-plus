@@ -1,5 +1,6 @@
 import threading
 from GetMail import EmailHook
+from gui import gui
 
 class SpamDetector:
     def __init__(self, d, email, pwrd, server):
@@ -17,3 +18,5 @@ class SpamDetector:
         
 sd = SpamDetector(300,"emailtestingmoco@gmail.com",open("pwd.txt","r").read(),'imap.gmail.com')
 sd.runMailCheck()
+
+gui = gui()

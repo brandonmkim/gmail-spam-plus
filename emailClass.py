@@ -16,8 +16,12 @@ class email:
         self.acc = acc
 
         trash = ImageTk.PhotoImage( Image.open("assets/trash.png").resize((36, 36), Image.ANTIALIAS) )
-        self.button = Button(content, image=trash, command=self.remove)
-        self.button.image = trash
+        self.trashButton = Button(content, image=trash, command=self.remove)
+        self.trashButton.image = trash
+
+        restore = ImageTk.PhotoImage( Image.open("assets/restore.png").resize((36, 36), Image.ANTIALIAS) )
+        self.restoreButton = Button(content, image=restore, command=self.remove)
+        self.restoreButton.image = restore
         
         self.row = 0
 
@@ -42,14 +46,15 @@ class email:
                 e.renderEmail(row)
                 row += 1
         else:
-            empty = Label(content, text="No more emails!").grid(column=0, columnspan=5, row=1, pady=4)
+            empty = Label(content, text="No more emails! Maybe ask a Nigerian prince for more?").grid(column=0, columnspan=maxCol, row=1, pady=8)
             
 
     # creates label and button on gui at newRow
     def renderEmail(self, newRow):
         # renders email
-        self.subj_elem.grid(column=0,  columnspan=5, row=newRow, rowspan=1, pady=4)
-        self.button.grid(   column=5,  columnspan=1, row=newRow, rowspan=1, pady=4)
+        self.subj_elem.grid(        column=0,           columnspan=maxCol-1,    row=newRow, rowspan=1, padx=8, pady=8, sticky=W)
+        self.restoreButton.grid(    column=maxCol-1,    columnspan=1,           row=newRow, rowspan=1, padx=8, pady=8, sticky=E)
+        self.trashButton.grid(      column=maxCol,      columnspan=1,           row=newRow, rowspan=1, padx=8, pady=8, sticky=W)
         self.row = newRow
     
     def remove(self):
@@ -57,8 +62,7 @@ class email:
         email.emailList.pop(email.emailList.index(self))
         # removes rendered emails
         self.subj_elem.destroy()
-        self.button.destroy()
-        # rerenders emails without deleted one
+        self.restoreButton.destroy()
+        self.trashButton.destroy()
+        # re-renders emails without deleted one
         email.renderAllEmails()
-
-    

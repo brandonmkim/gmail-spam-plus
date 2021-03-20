@@ -1,6 +1,8 @@
 from tkinter import *
 
+# stores basic gui frames separately to be accessed by both main and emailClass
 root = Tk()
 content = Frame(root, width=600, height=200)
-bannerFrame = Frame(content, borderwidth=0, relief="flat", width=600)
-banner = Label(content, text="WOOOOO BANNNANER")
+
+maxCol = 6
+maxRow = 5

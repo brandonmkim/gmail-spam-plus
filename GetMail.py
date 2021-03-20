@@ -2,7 +2,7 @@ import email
 import imaplib as imap
 import time
 from emailClass import email as em
-import SpamClassifier as sc
+import nlp.SpamClassifier as sc
 import threading
 
 class EmailHook:

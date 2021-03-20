@@ -3,20 +3,24 @@ from emailClass import email
 from gui_frame import *
 
 # TODO make into thread
-# TODO actually put this in a class
 
-#renders frame
-max_col = 6
-max_row = 5
-content.grid(column=0, row=0)
-bannerFrame.grid(column=0, row=0, columnspan=max_col, rowspan=1)
-banner.grid(column=0, row=0, columnspan=max_col, rowspan=1, sticky=N, pady=10)
+class gui:
+    def __init__(self):
+        content.grid(column=0, row=0)
 
-test = email("scammer", 1, "subject", "give movcney", "scam@s.cam")
-test2 = email("a", 1, "adsfsadf", "hehe scam", "scam@s.cam")
-test3 = email("a", 1, "fjdpaosi", "fjdsaoiufj", "scam@s.cam")
-test4 = email("a", 4, "subjec", "body", "email")
+        bannerFrame = Frame(content, borderwidth=0, relief="flat", width=600)
+        banner = Label(content, text="WOOOOO BANNNANER")
+        bannerFrame.grid(column=0, row=0, columnspan=maxCol, rowspan=1)
+        banner.grid(column=0, row=0, columnspan=maxCol, rowspan=1, sticky=N, pady=10)
+        print("banner placed")
 
-email.renderAllEmails()
+        test = email("scammer", 1, "subject", "give movcney", "scam@s.cam")
+        test2 = email("a", 1, "adsfsadf", "hehe scam", "scam@s.cam")
+        test3 = email("a", 1, "fjdpaosi", "fjdsaoiufj", "scam@s.cam")
+        test4 = email("a", 4, "subjec", "body", "email")
+        print(len(email.emailList))
 
-root.mainloop()
+        email.renderAllEmails()
+        print("emails rendered")
+
+        root.mainloop()
