@@ -3,6 +3,9 @@ import time
 from emailClass import email
 
 #tkinter setup
+#TODO Make this stuff into a thread
+#TODO use bubble sort to sort email stuff
+
 root = Tk()
 content = Frame(root, width=600, height=200, bg='white')
 frame = Frame(content, borderwidth=0, relief="flat", width=600, height=300, bg='white')
@@ -10,9 +13,9 @@ banner = Label(content, text="WOOOOOO BANNER")
 
 emails = []
 
-test = email(content, "subject", "body body body")
+test = email(content, "subject",'b1', "body body body")
 emails.append(test)
-test2 = email(content, "again", "bsaniudashj")
+test2 = email(content, "again",'b1', "bsaniudashj")
 emails.append(test2)
 
 content.grid(column=0, row=0)
