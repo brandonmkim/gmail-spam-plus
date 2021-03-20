@@ -57,6 +57,9 @@ class email:
         self.trashButton.grid(      column=maxCol,      columnspan=1,           row=newRow, rowspan=1, padx=8, pady=8, sticky=W)
         self.row = newRow
     
+    def setId(self, i):
+        self.id = i
+
     def remove(self):
         # removes email from list, and fills in empty space
         email.emailList.pop(email.emailList.index(self))
