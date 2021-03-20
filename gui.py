@@ -1,35 +1,22 @@
-import PySimpleGUI as sg
+from tkinter import *
 from emailClass import email
+from gui_frame import *
 
-sg.theme('BluePurple')
+# TODO make into thread
+# TODO actually put this in a class
 
-inbox = [   [sg.Text('No more emails!', key='-empty-')]]
+#renders frame
+max_col = 6
+max_row = 5
+content.grid(column=0, row=0)
+bannerFrame.grid(column=0, row=0, columnspan=max_col, rowspan=1)
+banner.grid(column=0, row=0, columnspan=max_col, rowspan=1, sticky=N, pady=10)
 
-layout = [  [sg.Column(inbox, key='-INBOX-')],
-            [sg.Text('Your typed chars appear here:'), sg.Text(size=(15,1), key='-OUTPUT-')],
-            [sg.Input(key='-IN-')],
-            [sg.Button('Show'), sg.Button('Exit')]]
+test = email("scammer", 1, "subject", "give movcney", "scam@s.cam")
+test2 = email("a", 1, "adsfsadf", "hehe scam", "scam@s.cam")
+test3 = email("a", 1, "fjdpaosi", "fjdsaoiufj", "scam@s.cam")
+test4 = email("a", 4, "subjec", "body", "email")
 
-window = sg.Window('spam email detector', layout)
+email.renderAllEmails()
 
-
-
-while True:  # Event Loop
-    
-    (event, values) = window.read()
-    # print(event, values)
-    if event == sg.WIN_CLOSED or event == 'Exit':
-        break
-    if event == 'Show':
-        spam = email("i am nigerian prince", "hehe moneey")
-        spam.addGUI(inbox)
-        window['-INBOX-'].update(inbox)
-        window.refresh()
-        print("press")
-        print(len(inbox));
-        
-
-        
-        
-
-window.close()
+root.mainloop()
