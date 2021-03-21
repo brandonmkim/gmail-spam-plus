@@ -1,8 +1,7 @@
 from emailClass import emails
-from GetMail import EmailHook
 from gui_frame import *
 from PIL import ImageTk, Image
-from emailClass import email
+from emailClass import emails
 
 # TODO figure out what to do w/ sorting
 
@@ -41,5 +40,3 @@ class gui:
         content.grid_columnconfigure(1, weight=1)
 
         self.renderAllEmails()
-        
-        self.root.mainloop()

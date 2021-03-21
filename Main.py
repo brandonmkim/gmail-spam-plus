@@ -1,4 +1,4 @@
-# import threading
+
 from GetMail import EmailHook
 from gui import gui
 from gui_frame import *
@@ -17,7 +17,7 @@ class SpamDetector:
         gm = EmailHook(self.e,self.p,self.s)
         gm.connect()
         g = gui(self.t,gm)
-
+        
 
         p1 = Process(target=gm.loop(self.delay,self.t))
         p1.start()

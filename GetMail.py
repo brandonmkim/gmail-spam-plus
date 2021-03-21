@@ -98,7 +98,7 @@ class EmailHook:
                         pred,typ = sc.spamDetect(newstr)
                         #print(typ)
                         #print(pred)
-
+                        print(pred, " a ", typ[0], "b ", newstr)
                         if(pred>0.6 and typ[0]=='spam'):
                             temp = str(id).split("'")
                             temp[1]=str(len(self.texts)+1)
@@ -134,7 +134,7 @@ class EmailHook:
                 print(i.getTime(), " ", i.getID())
                         
 
-            time.sleep(delay)
+            #time.sleep(delay)
 
     def getEmails(self):
         return self.texts
