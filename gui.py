@@ -14,11 +14,14 @@ class gui:
         banner.grid(column=0, row=0, columnspan=maxCol, rowspan=1, sticky=N, pady=10)
         print("banner placed")
 
-        test = email("scammer", 1, "subject", "give movcney", "scam@s.cam")
+        test = email("scammer@scammer.com", 1, "hehe this is a scam", 
+            "give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney", 50)
         test2 = email("a", 1, "adsfsadf", "hehe scam", "scam@s.cam")
         test3 = email("a", 1, "fjdpaosi", "fjdsaoiufj", "scam@s.cam")
         test4 = email("a", 4, "subjec", "body", "email")
         print(len(email.emailList))
+
+        content.columnconfigure(1, weight=1)
 
         email.renderAllEmails()
         print("emails rendered")

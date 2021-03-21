@@ -4,5 +4,5 @@ from tkinter import *
 root = Tk()
 content = Frame(root, width=600, height=200)
 
-maxCol = 6
+maxCol = 4
 maxRow = 5
