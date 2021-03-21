@@ -1,5 +1,6 @@
 from gui_frame import *
 from tkinter import *
+from renderAllEmails import *
 from PIL import ImageTk, Image
    
 class emails:
@@ -13,8 +14,7 @@ class emails:
         self.person = person
         self.emailID = emailID
         self.acc = acc
-
-        self.frame = Frame(content)
+        
         self.id = emailID
         self.subj = subj
         self.subj_elem = Label(self.frame, text=subj, wraplength=450, justify=LEFT)
@@ -26,7 +26,7 @@ class emails:
         self.trashButton.image = trash
 
         restore = ImageTk.PhotoImage( Image.open("assets/restore.png").resize((36, 36), Image.ANTIALIAS) )
-        self.restoreButton = Button(content, image=restore, command=lambda: self.remove())
+        self.restoreButton = Button(content, image=restore, command=lambda: self.restore())
         self.restoreButton.image = restore
 
         
@@ -74,11 +74,20 @@ class emails:
         self.trashButton.destroy()
 
         self.hook.permDelete(self.getID())
-        # re-renders emails without deleted one
-        # email.renderAllEmails()
+        renderAllEmails(self.hook.getEmails())
 
     def restore(self):
-        print("jfoisdajfisd")
+        # removes rendered emails
+        self.expanded = 0
+        self.expandedButton.destroy()
+        self.frame.destroy()
+        self.subj_elem.destroy()
+        self.body_elem.destroy()
+        self.restoreButton.destroy()
+        self.trashButton.destroy()
+
+        self.hook.restore(self.getID())
+        renderAllEmails(self.hook.getEmails())
     
     def getID(self):
         return self.emailID

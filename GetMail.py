@@ -26,13 +26,15 @@ class EmailHook:
         self.mail.select('[Gmail]/Trash')
         self.mail.store(id, '-X-GM-LABELS', '\Trash')
 
-        status, search_data = self.mail.search(None, '[Gmail]\Trash')
+        status, search_data = self.mail.search(None, 'ALL')
         ids = []
         for i in search_data:
             ids += i.split()
-
-        temp = id.split("'")
-        pos = temp[1]-1
+        print(ids)
+        temp = str(id).split("'")
+        print(temp)
+        pos = int(temp[1])-1
+        print(pos)
         for i in range(pos+1,len(self.texts)):
             self.texts[i].setID(ids[i-1])
 
@@ -61,87 +63,75 @@ class EmailHook:
             self.texts[i].setID(ids[i-1])
 ####################################################
 
-    def loop(self,delay,tk):
-        while True:
-            self.mail.select('inbox')
-            status, data = self.mail.search(None, 'ALL')
-            ids = []
-            deleted=0
-            for i in data:
-                ids += i.split()
-            for id in ids:
-                emailStatus, emailData = self.mail.fetch(id, '(RFC822)')
-                for response_part in emailData:
-                    if isinstance(response_part, tuple):
-                        encodedEmail = email.message_from_bytes(response_part[1])
-                        person = encodedEmail['from']
-                        headline = encodedEmail['subject']
+    def loop(self,tk):
+        self.mail.select('inbox')
+        status, data = self.mail.search(None, 'ALL')
+        ids = []
+        deleted=0
+        for i in data:
+            ids += i.split()
+        for id in ids:
+            emailStatus, emailData = self.mail.fetch(id, '(RFC822)')
+            for response_part in emailData:
+                if isinstance(response_part, tuple):
+                    encodedEmail = email.message_from_bytes(response_part[1])
+                    person = encodedEmail['from']
+                    headline = encodedEmail['subject']
 
-                        date = encodedEmail['date']
-                        monthToNum = {'Jan' : "01",'Feb' : "02",'Mar' : "03",'Apr' : "04",'May' : "05",'Jun' : "06",'Jul' : "07",'Aug' : "08",'Sep' : "09",'Oct' : "10",'Nov' :"11",'Dec' : "12"}
-                        date = date.split(" ")
-                        t = date[4].split(":")
-                        date = int(date[3] + monthToNum[date[2]]+ date[1] + t[0] + t[1]+ t[2])
-                        
-                        if encodedEmail.is_multipart():
-                            content = ''
-                            for i in encodedEmail.get_payload():
-                                if i.get_content_type() == 'text/plain':
-                                    content = i.get_payload()
-                        else:
-                            content = encodedEmail.get_payload()
-
-                        newstr = ("Subject: " + headline +" "+ content).replace("\n", "").replace("\r", "")
+                    date = encodedEmail['date']
+                    monthToNum = {'Jan' : "01",'Feb' : "02",'Mar' : "03",'Apr' : "04",'May' : "05",'Jun' : "06",'Jul' : "07",'Aug' : "08",'Sep' : "09",'Oct' : "10",'Nov' :"11",'Dec' : "12"}
+                    date = date.split(" ")
+                    t = date[4].split(":")
+                    date = int(date[3] + monthToNum[date[2]]+ date[1] + t[0] + t[1]+ t[2])
                     
-                        #Predict if email is spam.
-                        #print("hellloooo")
-                        pred,typ = sc.spamDetect(newstr)
-                        #print(typ)
-                        #print(pred)
-                        print(pred, " a ", typ[0], "b ", newstr)
-                        if(pred>0.6 and typ[0]=='spam'):
-                            temp = str(id).split("'")
-                            temp[1]=str(len(self.texts)+1)
+                    if encodedEmail.is_multipart():
+                        content = ''
+                        for i in encodedEmail.get_payload():
+                            if i.get_content_type() == 'text/plain':
+                                content = i.get_payload()
+                    else:
+                        content = encodedEmail.get_payload()
 
-                            e = emails(self,tk,person,(temp[1]).encode('utf8'),date,headline,content,pred)
-                            self.texts.insert(0,e)
-                            self.moveToTrash(id)
-                            for i in range(len(self.texts)):
-                                for x in range(i+1,len(self.texts)):
-                                    if int(self.texts[i].getTime())<int(self.texts[x].getTime()):
-                                        if self.texts[i].stripID() > self.texts[x].stripID():
-                                            temp = self.texts[i].getID()
-                                            self.texts[i].setID(self.texts[x].getID())
-                                            self.texts[x].setID(temp)
-                                        
-                                        self.texts[x],self.texts[i]=self.texts[i],self.texts[x]
-            
-            for i in range(len(self.texts)):
-                for x in range(i+1,len(self.texts)):
-                    if self.texts[i].stripID() > self.texts[x].stripID():
-                        temp = self.texts[i].getID()
-                        self.texts[i].setID(self.texts[x].getID())
-                        self.texts[x].setID(temp)
+                    newstr = ("Subject: " + headline +" "+ content).replace("\n", "").replace("\r", "")
+                
+                    #Predict if email is spam.
+                    #print("hellloooo")
+                    pred,typ = sc.spamDetect(newstr)
+                    #print(typ)
+                    #print(pred)
+                    print(pred, " a ", typ[0], "b ", newstr)
+                    if(pred>0.6 and typ[0]=='spam'):
+                        temp = str(id).split("'")
+                        temp[1]= str(len(self.texts)+deleted+1)
+                        deleted += 1
 
-            for i in self.texts:
-                print(i.getTime(), " ", i.getID())
+                        e = emails(self,person,(temp[1]).encode('utf8'),date,headline,content,pred)
+                        self.texts.insert(0,e)
+                        self.moveToTrash(id)
+                        for i in range(len(self.texts)):
+                            for x in range(i+1,len(self.texts)):
+                                if int(self.texts[i].getTime())<int(self.texts[x].getTime()):
+                                    if self.texts[i].stripID() > self.texts[x].stripID():
+                                        temp = self.texts[i].getID()
+                                        self.texts[i].setID(self.texts[x].getID())
+                                        self.texts[x].setID(temp)
+                                    
+                                    self.texts[x],self.texts[i]=self.texts[i],self.texts[x]
+        
+        for i in range(len(self.texts)):
+            for x in range(i+1,len(self.texts)):
+                if self.texts[i].stripID() > self.texts[x].stripID():
+                    temp = self.texts[i].getID()
+                    self.texts[i].setID(self.texts[x].getID())
+                    self.texts[x].setID(temp)
 
-            self.permDelete(b'1')
-            
-            print(self.texts)
+        for i in self.texts:
+            print(i.getTime(), " ", i.getID())
+        
+        print(self.texts)
 
-            for i in self.texts:
-                print(i.getTime(), " ", i.getID())
-                        
-
-            #time.sleep(delay)
+        for i in self.texts:
+            print(i.getTime(), " ", i.getID())
 
     def getEmails(self):
         return self.texts
-
-
-
-# print("HI ", int(self.texts[i].getTime()))
-# print("\n")
-# print("HI2 ", int(self.texts[x].getTime()))
-# print("\n")
