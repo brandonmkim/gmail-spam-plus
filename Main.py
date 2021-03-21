@@ -5,11 +5,16 @@ from gui_frame import *
 from tkinter import *
 from PIL import ImageTk, Image
 
-login_root = Tk()
-login_content = Frame(login_root, width=1500, height=1000, background="white")
-
 font_normal = tkFont.Font(family="Helvetica",size=12)
 font_bold = tkFont.Font(family="Helvetica",size=12,weight="bold")
+
+content.grid(column=0, row=0)
+loginPrompt = Label(content, text="Please log in to unlock this window.", background="white", font=font_bold)
+loginPrompt.grid(column=0, row=1, columnspan=maxCol, rowspan=1, pady=10)
+
+login_root = Tk()
+login_root.title("LOGIN: Gmail Spam +")
+login_content = Frame(login_root, width=1500, height=1000, background="white")
 
 email_auth=""
 
@@ -17,10 +22,10 @@ pass_auth=""
 
 login_content.grid(column=0, row=0)
 
-emailLabel = Label(login_content, text="Email", font=font_bold)
+emailLabel = Label(login_content, text="Email", font=font_bold, background="white")
 emailLabel.grid(column=0, row=1, padx=10, pady=10)
 
-passLabel = Label(login_content, text="Password", font=font_bold)
+passLabel = Label(login_content, text="Password", font=font_bold, background="white")
 passLabel.grid(column=0, row=2, padx=10, pady=10)
 
 emailEntry = Entry(login_content)
@@ -38,9 +43,9 @@ def login():
     pass_auth = passEntry.get()
     hook = EmailHook(email_auth, pass_auth, 'imap.gmail.com')
     try:
-        login_root.destroy()  
         g = gui(root, hook)
-        g.createGUI()
+        login_root.destroy()
+        loginPrompt.destroy()
         g.startInbox()
         print("YES")
     except:

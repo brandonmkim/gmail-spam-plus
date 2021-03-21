@@ -18,14 +18,11 @@ class gui:
             for x in range(i,len(self.emailhook.getEmails())):
                 if(self.emailhook.getEmails()[i].getAccuracy() > self.emailhook.getEmails()[x].getAccuracy()):
                     self.emailhook.getEmails()[i],self.emailhook.getEmails()[x] = self.emailhook.getEmails()[x],self.emailhook.getEmails()[i]
-
-    def createGUI(self):
-        content.grid(column=0, row=0)
     
     def startInbox(self):
         content.grid_columnconfigure(1, weight=1)
         self.emailhook.loop(root)
-        
+        print(len(self.emailhook.getEmails()))
         counter = 0
         while True:
             if(counter == 20000 or counter == 0):
