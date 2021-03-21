@@ -47,21 +47,11 @@ def login():
         login_root.destroy()
         loginPrompt.destroy()
         g.startInbox()
-        print("YES")
     except:
         emailEntry.delete(0, len(email_auth))
         passEntry.delete(0, len(pass_auth))
-        print("exception")
 
 signin = Button(login_content, text='Login', command=lambda: login(), font=font_normal)
 signin.grid(column=0, row=3, padx=10, pady=10)
 login_root.mainloop()
-
-# print("mainloop done")
-# print(email_auth, " ", pass_auth)
-
-
-# g = gui(root,EmailHook("emailtestingmoco@gmail.com", "noob_1mon3y$$$_1", 'imap.gmail.com'))
-# g.createGUI()
-# g.startInbox()
 

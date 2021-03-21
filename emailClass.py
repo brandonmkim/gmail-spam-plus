@@ -70,10 +70,7 @@ class emails:
         self.body_elem.destroy()
         self.restoreButton.destroy()
         self.trashButton.destroy()
-
         self.hook.permDelete(self.st)
-        # renderAllEmails(self.hook.getEmails())
-        print(self.hook.getEmails())
 
     def restore(self):
         self.expanded = 0
@@ -83,9 +80,7 @@ class emails:
         self.body_elem.destroy()
         self.restoreButton.destroy()
         self.trashButton.destroy()
-
         self.hook.restore(self.getID(),self.st)
-        # renderAllEmails(self.hook.getEmails())
     
     def getST(self):
         return self.st

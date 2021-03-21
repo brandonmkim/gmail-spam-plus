@@ -22,14 +22,12 @@ class gui:
     def startInbox(self):
         content.grid_columnconfigure(1, weight=1)
         self.emailhook.loop(root)
-        print(len(self.emailhook.getEmails()))
         counter = 0
         while True:
-            if(counter == 20000 or counter == 0):
+            if(counter == 100000 or counter == 0):
                 self.emailhook.loop(root)
                 counter = 1
             else:
-                print(counter)
                 counter += 1
                 try:
                     renderAllEmails(self.emailhook.getEmails())

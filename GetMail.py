@@ -28,8 +28,6 @@ class EmailHook:
         for i in data:
             ids += i.split()
 
-        print("LIST OF IDS ", ids)
-
         for id in ids:
             emailStatus, emailData = self.mail.fetch(id, '(RFC822)')
             for response_part in emailData:
@@ -38,9 +36,7 @@ class EmailHook:
                     person = encodedEmail['from']
                     headline = encodedEmail['subject']
                     date = encodedEmail['date']
-                    print(date," ",string)
                     if string==date:
-                        print(headline, "TRUE")
                         self.mail.store(id, '+X-GM-LABELS', '\Trash')
                         break
         
@@ -52,8 +48,6 @@ class EmailHook:
         ids=[]
         for i in data:
             ids += i.split()
-        
-        print("LIST OF IDS ", ids)
         for ide in ids:
             emailStatus, emailData = self.mail.fetch(ide, '(RFC822)')
             for response_part in emailData:
@@ -85,9 +79,6 @@ class EmailHook:
         ids=[]
         for i in data:
             ids += i.split()
-
-        print("LIST OF IDS ", ids)
-
         for id in ids:
             emailStatus, emailData = self.mail.fetch(id, '(RFC822)')
             for response_part in emailData:
@@ -96,15 +87,11 @@ class EmailHook:
                     person = encodedEmail['from']
                     headline = encodedEmail['subject']
                     date = encodedEmail['date']
-                    print(date," ",time)
                     if time==date:
-                        print(headline, "TRUE")
-                        print("before", self.texts)
                         for i in self.texts:
                             if i.getST() == time:
                                 self.texts.pop( self.texts.index(i) )
                                 break
-                        print("AFTER:", self.texts)
                         self.mail.store(id, '+FLAGS', '\Deleted')
                         self.mail.expunge()
                         break
@@ -153,9 +140,6 @@ class EmailHook:
 
         for i in data:
             ids += i.split()
-
-        print("LIST OF IDS ", ids)
-
         for id in ids:
             emailStatus, emailData = self.mail.fetch(id, '(RFC822)')
             for response_part in emailData:
@@ -164,12 +148,7 @@ class EmailHook:
                     person = encodedEmail['from']
                     headline = encodedEmail['subject']
                     date = encodedEmail['date']
-                    print(person)
-                    print(headline)
-
-                    
                     monthToNum = {'Jan' : "01",'Feb' : "02",'Mar' : "03",'Apr' : "04",'May' : "05",'Jun' : "06",'Jul' : "07",'Aug' : "08",'Sep' : "09",'Oct' : "10",'Nov' :"11",'Dec' : "12"}
-                    print(date)
                     date = date.split(" ")
                     t = date[4].split(":")
                     date = int(date[3] + monthToNum[date[2]]+ date[1] + t[0] + t[1]+ t[2])
@@ -181,14 +160,11 @@ class EmailHook:
                                 content = i.get_payload()
                     else:
                         content = encodedEmail.get_payload()
-                    
-                    print("\n", id.decode(), "<id to content>", content,"\n")
 
                     newstr = ("Subject: " + headline +" "+ content).replace("\n", "").replace("\r", "")
-                
+
                     #Predict if email is spam.
                     pred,typ = sc.spamDetect(newstr)
-                    print(pred)
                     if(pred>0.6 and typ[0]=='spam'):
                         e = emails(self,person,id,date,encodedEmail['date'],headline,content,pred)
                         self.texts.insert(0,e)

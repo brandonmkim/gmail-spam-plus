@@ -2,7 +2,6 @@ from tkinter import *
 import gui_frame
 
 def renderAllEmails(emailList):
-    
     if len(emailList) > 0:
             row = 1
             for e in emailList:
