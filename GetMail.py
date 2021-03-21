@@ -99,6 +99,12 @@ class EmailHook:
                     print(date," ",time)
                     if time==date:
                         print(headline, "TRUE")
+                        print("before", self.texts)
+                        for i in self.texts:
+                            if i.getST() == time:
+                                self.texts.pop( self.texts.index(i) )
+                                break
+                        print("AFTER:", self.texts)
                         self.mail.store(id, '+FLAGS', '\Deleted')
                         self.mail.expunge()
                         break

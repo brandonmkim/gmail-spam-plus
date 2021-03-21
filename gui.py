@@ -21,10 +21,10 @@ class gui:
 
     def createGUI(self):
         content.grid(column=0, row=0)
-        
     
     def startInbox(self):
         content.grid_columnconfigure(1, weight=1)
+        self.emailhook.loop(root)
         
         counter = 0
         while True:
@@ -34,6 +34,9 @@ class gui:
             else:
                 print(counter)
                 counter += 1
-                renderAllEmails(self.emailhook.getEmails())
+                try:
+                    renderAllEmails(self.emailhook.getEmails())
+                except:
+                    print("exception in render all")
                 self.root.update_idletasks()
                 self.root.update()

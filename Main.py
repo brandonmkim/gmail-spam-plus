@@ -3,8 +3,7 @@ from gui import gui
 import tkinter.font as tkFont
 from gui_frame import *  
 from tkinter import *
-
-
+from PIL import ImageTk, Image
 
 login_root = Tk()
 login_content = Frame(login_root, width=1500, height=1000, background="white")
@@ -12,12 +11,12 @@ login_content = Frame(login_root, width=1500, height=1000, background="white")
 font_normal = tkFont.Font(family="Helvetica",size=12)
 font_bold = tkFont.Font(family="Helvetica",size=12,weight="bold")
 
-
 email_auth=""
 
 pass_auth=""
 
 login_content.grid(column=0, row=0)
+
 emailLabel = Label(login_content, text="Email", font=font_bold)
 emailLabel.grid(column=0, row=1, padx=10, pady=10)
 

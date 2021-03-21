@@ -4,7 +4,7 @@ from PIL import ImageTk, Image
 
 # stores basic gui frames separately to be accessed by both main and emailClass
 root = Tk()
-root.title("Gmail Spam + main")
+root.title("Gmail Spam +")
 content = Frame(root, width=1500, height=1000, background="white")
 maxCol = 4
 
