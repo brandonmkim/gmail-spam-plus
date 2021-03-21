@@ -19,48 +19,51 @@ class EmailHook:
 
 ###############################################
     def moveToTrash(self, id):
-        self.mail.select('inbox')
-        self.mail.store(id, '+X-GM-LABELS', '\Trash')
+        # self.mail.select('inbox')
+        # self.mail.store(id, '+X-GM-LABELS', '\Trash')
+        print("jfoidsajfi")
 
     def restore(self, id):
-        self.mail.select('[Gmail]/Trash')
-        self.mail.store(id, '-X-GM-LABELS', '\Trash')
+        # self.mail.select('[Gmail]/Trash')
+        # self.mail.store(id, '-X-GM-LABELS', '\Trash')
 
-        status, search_data = self.mail.search(None, 'ALL')
-        ids = []
-        for i in search_data:
-            ids += i.split()
-        print(ids)
-        temp = str(id).split("'")
-        print(temp)
-        pos = int(temp[1])-1
-        print(pos)
-        for i in range(pos+1,len(self.texts)):
-            self.texts[i].setID(ids[i-1])
+        # status, search_data = self.mail.search(None, 'ALL')
+        # ids = []
+        # for i in search_data:
+        #     ids += i.split()
+        # print(ids)
+        # temp = str(id).split("'")
+        # print(temp)
+        # pos = int(temp[1])-1
+        # print(pos)
+        # for i in range(pos+1,len(self.texts)):
+        #     self.texts[i].setID(ids[i-1])
+        print("restored")
 
 
     def permDelete(self, id):
-        self.mail.select('[Gmail]/Trash')
-        status, search_data = self.mail.search(None, 'ALL')
+        # self.mail.select('[Gmail]/Trash')
+        # status, search_data = self.mail.search(None, 'ALL')
 
-        ids = []
+        # ids = []
 
-        for i in search_data:
-            ids += i.split()
+        # for i in search_data:
+        #     ids += i.split()
             
-        temp = str(id).split("'")
-        pos = int(temp[1])-1
+        # temp = str(id).split("'")
+        # pos = int(temp[1])-1
 
-        for i in self.texts:
-            if i.getID() == id:
-                self.texts.remove(i)
-                break
+        # for i in self.texts:
+        #     if i.getID() == id:
+        #         self.texts.remove(i)
+        #         break
         
-        self.mail.store(id, '+FLAGS', '\Deleted')
-        self.mail.expunge()
+        # self.mail.store(id, '+FLAGS', '\Deleted')
+        # self.mail.expunge()
         
-        for i in range(pos,len(self.texts)):
-            self.texts[i].setID(ids[i-1])
+        # for i in range(pos,len(self.texts)):
+        #     self.texts[i].setID(ids[i-1])
+        print("perma")
 ####################################################
 
     def loop(self,tk):

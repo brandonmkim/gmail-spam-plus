@@ -22,15 +22,9 @@ class gui:
     def createGUI(self):
         content.grid(column=0, row=0)
         
-        bannerFrame = Frame(content, borderwidth=0, relief="flat", width=600)
-
-        bannerimg = ImageTk.PhotoImage( Image.open("assets/wtf.png").resize((600,200), Image.ANTIALIAS) )
-        banner = Label(content, image=bannerimg, background="white")
-        bannerFrame.image = bannerimg
-
-        bannerFrame.grid(column=0, row=0, columnspan=maxCol, rowspan=1)
-        banner.grid(column=0, row=0, columnspan=maxCol, rowspan=1, sticky=N, pady=10)
-
+          
+    
+    def startInbox(self):
         content.grid_columnconfigure(1, weight=1)
         
         counter = 0
