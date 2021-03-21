@@ -35,3 +35,7 @@ imaplib's documentation on ID assignment was also ambiguous. Instead, we sorted 
 
 # What's next for Gmail Spam +
 It's now apparent that choosing Python as our language was suboptimal, and in the future we would restructure our app in Java or JavaScript. With a more potent GUI toolkit, we hope to make our GUI more user-friendly and polished. We also hope to refine our ML model to identify emails more precisely.
+
+# How to use + 
+- Use emailtestingmoco@gmail.com for the email
+- Password is in the pwd.txt
