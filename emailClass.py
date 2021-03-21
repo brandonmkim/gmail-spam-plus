@@ -2,17 +2,14 @@ from tkinter import *
 from gui_frame import *
 from PIL import ImageTk, Image
 
-class email:
-    # list of all instances
-    emailList = []
-    
-    def __init__(self, person, emailID, subj, body, acc):
+class emails:
+    def __init__(self, content, person, id, t, subj, body, acc):
+        
+        
+        #TODO can u move this into the GUI and access the emailhook stuff when u remove a line and get the emaillist
+        #TODO Also put the restore function from the EmailHook w/ the gui.
         self.frame = Frame(content)
-
-        self.person = person
-        self.emailID = emailID
-        self.acc = acc
-
+        self.id = id
         self.subj = subj
         self.subj_elem = Label(self.frame, text=subj, wraplength=500, justify=LEFT)
         self.body = body
@@ -30,18 +27,15 @@ class email:
         self.expandedButton = Checkbutton(content, variable=self.expanded, command=lambda: self.expandBody())
         
         self.row = 0
-
-        email.emailList.append(self)
-    
+        self.p = person
+        self.subj_elem = Label(content, text=self.subj)
+        self.body_elem = Label(content, text=self.body)
+        self.button = Button(content, text="delete", command=self.remove)
+        self.acc = acc
+        self.time = t
+        
     def getAccuracy(self):
         return self.acc
-
-    @staticmethod
-    def sort():
-        for i in range(len(email.emailList)):
-            for x in range(1,i):
-                if(email.emailList[i].getAccuracy() > email.emailList[x].getAccuracy()):
-                    email.emailList[i],email.emailList[x] = email.emailList[x],email.emailList[i]
 
     # calls renderEmail on all emails
     @staticmethod
@@ -52,7 +46,7 @@ class email:
                 e.renderEmail(row)
                 row += 1
         else:
-            empty = Label(content, text="No more emails! Maybe ask a Nigerian prince for more?").grid(column=0, columnspan=maxCol, row=1, pady=8)
+            Label(content, text="No more emails! Maybe ask a Nigerian prince for more?").grid(column=0, columnspan=maxCol, row=1, pady=8)
 
     # creates label and button on gui at newRow
     def renderEmail(self, newRow):
@@ -65,7 +59,7 @@ class email:
         self.trashButton.grid(      column=maxCol,      columnspan=1,       row=newRow, rowspan=1, padx=8, pady=8, sticky=NW)
         self.row = newRow
     
-    def setId(self, i):
+    def setID(self, i):
         self.id = i
 
     def remove(self):
@@ -80,6 +74,15 @@ class email:
         self.trashButton.destroy()
         # re-renders emails without deleted one
         email.renderAllEmails()
+    
+    def getID(self):
+        return self.id
+
+    def stripID(self):
+        return int(str(self.getID()).split("'")[1])
+
+    def getTime(self):
+        return self.time
 
     def expandBody(self):
         state = self.expanded.get()
