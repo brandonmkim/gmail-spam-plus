@@ -10,9 +10,9 @@ class gui:
     def __init__(self,root,eh):
         self.root = root
         self.emailhook = eh
-
         self.emailhook.connect()
-    
+        self.emailhook.addDeleted(root)
+
     def sort(self):
         for i in range(len(self.emailhook.getEmails())):
             for x in range(i,len(self.emailhook.getEmails())):
@@ -22,22 +22,18 @@ class gui:
     def createGUI(self):
         content.grid(column=0, row=0)
         
-          
     
     def startInbox(self):
         content.grid_columnconfigure(1, weight=1)
         
         counter = 0
-        self.emailhook.loop(root)
-        renderAllEmails(self.emailhook.getEmails())
-        self.root.mainloop()
-        # while True:
-        #     if(counter == 1000 or counter == 0):
-        #         print("entering hook loop ---------------------")
-        #         self.emailhook.loop(root)
-        #         counter = 1
-        #     else:
-        #         counter += 1
-        #         self.renderAllEmails()
-        #         self.root.update_idletasks()
-        #         self.root.update()
+        while True:
+            if(counter == 20000 or counter == 0):
+                self.emailhook.loop(root)
+                counter = 1
+            else:
+                print(counter)
+                counter += 1
+                renderAllEmails(self.emailhook.getEmails())
+                self.root.update_idletasks()
+                self.root.update()

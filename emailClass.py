@@ -5,7 +5,7 @@ from PIL import ImageTk, Image
    
 class emails:
     emailList = []
-    def __init__(self, emailhook, person, emailID, time, subj, body, acc):
+    def __init__(self, emailhook, person, emailID, time, st, subj, body, acc):
         #TODO can u move this into the GUI and access the emailhook stuff when u remove a line and get the emaillist
         #TODO Also put the restore function from the EmailHook w/ the gui.
         self.hook = emailhook
@@ -15,6 +15,7 @@ class emails:
         self.emailID = emailID
         self.acc = acc
         self.time = time
+        self.st = st
 
         self.id = emailID
         self.subj = subj
@@ -62,7 +63,6 @@ class emails:
         self.id = i
 
     def remove(self):
-        # removes rendered emails
         self.expanded = 0
         self.expandedButton.destroy()
         self.emailFrame.destroy()
@@ -71,16 +71,10 @@ class emails:
         self.restoreButton.destroy()
         self.trashButton.destroy()
 
-        self.hook.permDelete(self.getID())
-        print("removed")
-
-        print(len(self.hook.getEmails()))
-        if len(self.hook.getEmails()) == 0:
-            Label(gui_frame.content, text="No more emails! Maybe ask a Nigerian prince for more?", background="white", font=gui_frame.font_normal).grid(column=0, columnspan=gui_frame.maxCol, row=1, pady=8)
-        # renderAllEmails(self.hook.getEmails())
+        self.hook.permDelete(self.st)
+        renderAllEmails(self.hook.getEmails())
 
     def restore(self):
-        # removes rendered emails
         self.expanded = 0
         self.expandedButton.destroy()
         self.emailFrame.destroy()
@@ -88,15 +82,13 @@ class emails:
         self.body_elem.destroy()
         self.restoreButton.destroy()
         self.trashButton.destroy()
-        
-        self.hook.restore(self.getID())
-        print("restore")
 
-        # renderAllEmails(self.hook.getEmails())
-        print(len(self.hook.getEmails()))
-        if len(self.hook.getEmails()) == 0:
-            Label(gui_frame.content, text="No more emails! Maybe ask a Nigerian prince for more?", background="white", font=gui_frame.font_normal).grid(column=0, columnspan=gui_frame.maxCol, row=1, pady=8)
+        self.hook.restore(self.getID(),self.st)
+        renderAllEmails(self.hook.getEmails())
     
+    def getST(self):
+        return self.st
+
     def getID(self):
         return self.emailID
 
