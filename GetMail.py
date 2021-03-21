@@ -103,7 +103,7 @@ class EmailHook:
                             temp = str(id).split("'")
                             temp[1]=str(len(self.texts)+1)
 
-                            e = emails(tk,person,(temp[1]).encode('utf8'),date,headline,content,pred)
+                            e = emails(self,tk,person,(temp[1]).encode('utf8'),date,headline,content,pred)
                             self.texts.insert(0,e)
                             self.moveToTrash(id)
                             for i in range(len(self.texts)):

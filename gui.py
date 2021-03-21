@@ -1,5 +1,8 @@
 from emailClass import emails
+from GetMail import EmailHook
 from gui_frame import *
+from PIL import ImageTk, Image
+from emailClass import email
 
 # TODO figure out what to do w/ sorting
 
@@ -24,25 +27,19 @@ class gui:
             Label(content, text="No more emails! Maybe ask a Nigerian prince for more?").grid(column=0, columnspan=maxCol, row=1, pady=8)
 
     def createGUI(self):
-
         content.grid(column=0, row=0)
         
         bannerFrame = Frame(content, borderwidth=0, relief="flat", width=600)
-        banner = Label(content, text="WOOOOO BANNNANER")
+
+        bannerimg = ImageTk.PhotoImage( Image.open("assets/wtf.png").resize((600,200), Image.ANTIALIAS) )
+        banner = Label(content, image=bannerimg)
+        bannerFrame.image = bannerimg
+
         bannerFrame.grid(column=0, row=0, columnspan=maxCol, rowspan=1)
         banner.grid(column=0, row=0, columnspan=maxCol, rowspan=1, sticky=N, pady=10)
-        print("banner placed")
 
-        test = emails("scammer@scammer.com", 1, "hehe this is a scam", 
-            "give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney give movcney", 50)
-        test2 = emails("a", 1, "adsfsadf", "hehe scam", "scam@s.cam")
-        test3 = emails("a", 1, "fjdpaosi", "fjdsaoiufj", "scam@s.cam")
-        test4 = emails("a", 4, "subjec", "body", "email")
-        print(len(self.emailhook.getEmails()))
-
-        content.columnconfigure(1, weight=1)
+        content.grid_columnconfigure(1, weight=1)
 
         self.renderAllEmails()
-        print("emails rendered")
-
+        
         self.root.mainloop()

@@ -1,19 +1,25 @@
-from tkinter import *
 from gui_frame import *
+from tkinter import *
 from PIL import ImageTk, Image
-
-class emails:
-    def __init__(self, content, person, id, t, subj, body, acc):
-        
-        
+   
+class email:
+    emailList = []
+    def __init__(self, emailhook, person, emailID, time, subj, body, acc):
         #TODO can u move this into the GUI and access the emailhook stuff when u remove a line and get the emaillist
         #TODO Also put the restore function from the EmailHook w/ the gui.
+        self.hook = emailhook
+        self.frame = Frame(content, background="bisque")
+
+        self.person = person
+        self.emailID = emailID
+        self.acc = acc
+
         self.frame = Frame(content)
-        self.id = id
+        self.id = emailID
         self.subj = subj
-        self.subj_elem = Label(self.frame, text=subj, wraplength=500, justify=LEFT)
+        self.subj_elem = Label(self.frame, text=subj, wraplength=450, justify=LEFT)
         self.body = body
-        self.body_elem = Label(self.frame, text=body, wraplength=500, justify=LEFT)
+        self.body_elem = Label(self.frame, text=body, wraplength=450, justify=LEFT)
 
         trash = ImageTk.PhotoImage( Image.open("assets/trash.png").resize((36, 36), Image.ANTIALIAS) )
         self.trashButton = Button(content, image=trash, command=lambda: self.remove())
@@ -23,8 +29,14 @@ class emails:
         self.restoreButton = Button(content, image=restore, command=lambda: self.remove())
         self.restoreButton.image = restore
 
+        
         self.expanded = IntVar()
-        self.expandedButton = Checkbutton(content, variable=self.expanded, command=lambda: self.expandBody())
+        collapsed = ImageTk.PhotoImage( Image.open("assets/closed.png").resize((20, 20), Image.ANTIALIAS) )
+        expanded = ImageTk.PhotoImage( Image.open("assets/open.png").resize((20, 20), Image.ANTIALIAS) )
+        self.expandedButton = Checkbutton(content, variable=self.expanded, command=lambda: self.expandBody(), image=collapsed, selectimage=expanded, indicatoron=False)
+        self.expandedButton.image = collapsed
+        self.expandedButton.selectimage = expanded
+        
         
         self.row = 0
         self.p = person
@@ -32,21 +44,10 @@ class emails:
         self.body_elem = Label(content, text=self.body)
         self.button = Button(content, text="delete", command=self.remove)
         self.acc = acc
-        self.time = t
+        self.time = time
         
     def getAccuracy(self):
         return self.acc
-
-    # calls renderEmail on all emails
-    @staticmethod
-    def renderAllEmails():
-        if len(email.emailList) > 0:
-            row = 1
-            for e in email.emailList:
-                e.renderEmail(row)
-                row += 1
-        else:
-            Label(content, text="No more emails! Maybe ask a Nigerian prince for more?").grid(column=0, columnspan=maxCol, row=1, pady=8)
 
     # creates label and button on gui at newRow
     def renderEmail(self, newRow):
@@ -63,20 +64,24 @@ class emails:
         self.id = i
 
     def remove(self):
-        # removes email from list, and fills in empty space
-        email.emailList.pop( email.emailList.index(self) )
         # removes rendered emails
         self.expanded = 0
         self.expandedButton.destroy()
+        self.frame.destroy()
         self.subj_elem.destroy()
         self.body_elem.destroy()
         self.restoreButton.destroy()
         self.trashButton.destroy()
+
+        self.hook.permDelete(self.getID())
         # re-renders emails without deleted one
-        email.renderAllEmails()
+        # email.renderAllEmails()
+
+    def restore(self):
+        print("jfoisdajfisd")
     
     def getID(self):
-        return self.id
+        return self.emailID
 
     def stripID(self):
         return int(str(self.getID()).split("'")[1])
