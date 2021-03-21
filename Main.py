@@ -1,8 +1,9 @@
 # import threading
-# from GetMail import EmailHook
+from GetMail import EmailHook
 from gui import gui
 from gui_frame import *
 from tkinter import *
+from multiprocessing import Process
 
 class SpamDetector:
     def __init__(self, d, email, pwrd, server):
@@ -16,15 +17,12 @@ class SpamDetector:
         gm = EmailHook(self.e,self.p,self.s)
         gm.connect()
         g = gui(self.t,gm)
-        # gm.loop(self.delay,self.t)
-        g.createGUI()
-        # t1 = threading.Thread(target=gm.loop(self.delay,self.t),name='getEmails')
-        # t2 = threading.Thread(target=g.createGUI(), name='rungui')
-        #Run Threads
-        t2.start()
-        t1.start()
-        t2.join()
-        t1.join()
+
+
+        p1 = Process(target=gm.loop(self.delay,self.t))
+        p1.start()
+        p2 = Process(target=g.createGUI())
+        p2.start()
         
 sd = SpamDetector(300,"emailtestingmoco@gmail.com",open("pwd.txt","r").read(),'imap.gmail.com')
 sd.runChecker()

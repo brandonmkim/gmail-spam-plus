@@ -2,7 +2,7 @@ from gui_frame import *
 from tkinter import *
 from PIL import ImageTk, Image
    
-class email:
+class emails:
     emailList = []
     def __init__(self, emailhook, person, emailID, time, subj, body, acc):
         #TODO can u move this into the GUI and access the emailhook stuff when u remove a line and get the emaillist
